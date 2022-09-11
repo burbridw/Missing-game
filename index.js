@@ -1,12 +1,17 @@
 let activeArr = []
 let selectArr = []
 let displayArr = []
+let answerArr = []
 let goBackBtn = ""
 let imgList = ""
 let selectionOpen = false
+let globalCount = 0
 
 const gameBtnDisplay = document.getElementById("game-btn-container")
 const topicBtnDisplay = document.getElementById("topic-btn-container")
+const playBtn = document.getElementById("play-button")
+const answerBtn = document.getElementById("answer-button")
+const answerBox = document.getElementById("answer-box")
 
 const numbersArr = ["./images/numbers/img1.png","./images/numbers/img2.png", "./images/numbers/img3.png", "./images/numbers/img4.png", "./images/numbers/img5.png", "./images/numbers/img6.png", "./images/numbers/img7.png", "./images/numbers/img8.png", "./images/numbers/img9.png", "./images/numbers/img10.png", "./images/numbers/img11.png", "./images/numbers/img12.png"]
 const feelingsArr = ["./images/feelings/img1.png","./images/feelings/img2.png", "./images/feelings/img3.png", "./images/feelings/img4.png", "./images/feelings/img5.png", "./images/feelings/img6.png", "./images/feelings/img7.png", "./images/feelings/img8.png", "./images/feelings/img9.png","./images/feelings/img10.png"]
@@ -153,10 +158,49 @@ function renderGame(targetDiv, arr){
     displayArr = displayArr.slice(0, 12)
     let currentDiv = document.getElementById(targetDiv)
     currentDiv.innerHTML = ""
+    answerBox.innerHTML = ""
+    answerBox.classList.add("hide-me")
+    answerBtn.classList.add("hide-me")
     topicBtnDisplay.className ="hide-me"
     gameBtnDisplay.className = "conceal-menu"
     for ( let i = 0; i < displayArr.length; i++) {
     currentDiv.innerHTML += `<div class="img-box"><img src="${displayArr[i]}"></div>`
+    playBtn.classList.remove("hide-me")
+    }
+}
+
+playBtn.addEventListener("click",function() {
+    playBtn.classList.add("hide-me")
+    answerBtn.classList.remove("hide-me")
+    remove("cards-container", 2)
+})
+
+function remove(targetDiv, count) {
+    let modArr = displayArr
+    globalCount = count
+    for (let i = 0; i < count; i++) {
+    let missingNum = Math.floor(Math.random()*modArr.length)
+    let missingArr = modArr.slice(missingNum,missingNum + 1)
+    modArr = modArr.filter( (x) => !missingArr.includes(x) )
+    modArr = modArr.sort( () => { return 0.5 - Math.random() } )
+    answerArr = displayArr.filter( (x) => !modArr.includes(x) )
+    }
+    let currentDiv = document.getElementById(targetDiv)
+    currentDiv.innerHTML = ""
+    for ( let i = 0; i < modArr.length; i++) {
+    currentDiv.innerHTML += `<div class="img-box"><img src="${modArr[i]}"></div>`
+    }
+}
+
+answerBtn.addEventListener("click", function() {
+    answerBtn.classList.add("hide-me")
+    displayAnswer()
+})
+
+function displayAnswer() {
+    for (let i = 0; i < globalCount; i++) {
+    answerBox.innerHTML += `<img src="${answerArr[i]}">`
+    answerBox.classList.remove("hide-me")
     }
 }
 
@@ -165,6 +209,9 @@ clearBtn.addEventListener("click",function(){
     currentDiv.innerHTML = ""
     let currenterDiv = document.getElementById("select-container")
     currenterDiv.innerHTML = ""
+    answerBox.innerHTML = ""
+    answerBox.classList.add("hide-me")
+    answerBtn.classList.add("hide-me")
     activeArr = []
     displayArr = []
     selectArr = []
