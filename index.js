@@ -5,7 +5,7 @@ let answerArr = []
 let goBackBtn = ""
 let imgList = ""
 let selectionOpen = false
-let globalCount = 0
+let globalCount = 1
 
 const gameBtnDisplay = document.getElementById("game-btn-container")
 const topicBtnDisplay = document.getElementById("topic-btn-container")
@@ -13,6 +13,22 @@ const playBtn = document.getElementById("play-button")
 const playAgainBtn = document.getElementById("play-again-button")
 const answerBtn = document.getElementById("answer-button")
 const answerBox = document.getElementById("answer-box")
+const counterDisplay = document.getElementById("counter")
+const counterUpBtn = document.getElementById("counter-up")
+const counterDownBtn = document.getElementById("counter-down")
+
+counterDisplay.textContent = globalCount
+
+counterUpBtn.addEventListener("click",function() {
+    globalCount += 1
+    counterDisplay.textContent = globalCount
+})
+
+counterDownBtn.addEventListener("click",function() {
+    globalCount -= 1
+    counterDisplay.textContent = globalCount
+})
+
 
 const feelingsArr = ["./images/feelings/img1.png","./images/feelings/img2.png", "./images/feelings/img3.png", "./images/feelings/img4.png", "./images/feelings/img5.png", "./images/feelings/img6.png", "./images/feelings/img7.png", "./images/feelings/img8.png", "./images/feelings/img9.png","./images/feelings/img10.png"]
 const numbersArr = ["./images/numbers/img1.png","./images/numbers/img2.png", "./images/numbers/img3.png", "./images/numbers/img4.png", "./images/numbers/img5.png", "./images/numbers/img6.png", "./images/numbers/img7.png", "./images/numbers/img8.png", "./images/numbers/img9.png", "./images/numbers/img10.png", "./images/numbers/img11.png", "./images/numbers/img12.png"]
@@ -34,7 +50,7 @@ const natureArr = ["./images/nature/img1.png","./images/nature/img2.png", "./ima
 const monthsArr = ["./images/months/img1.png","./images/months/img2.png", "./images/months/img3.png", "./images/months/img4.png", "./images/months/img5.png", "./images/months/img6.png", "./images/months/img7.png", "./images/months/img8.png", "./images/months/img9.png", "./images/months/img10.png", "./images/months/img11.png", "./images/months/img12.png"]
 const seasonsArr = ["./images/seasons/img1.png","./images/seasons/img2.png", "./images/seasons/img3.png", "./images/seasons/img4.png"]
 const timesofdayArr = ["./images/timesofday/img1.png","./images/timesofday/img2.png", "./images/timesofday/img3.png", "./images/timesofday/img4.png"]
-const daysArr = ["./images/days/img1.png","./images/days/img2.png", "./images/days/img3.png", "./images/days/img4.png","./images/days/img2.png", "./images/days/img3.png", "./images/days/img4.png"]
+const daysArr = ["./images/days/img1.png","./images/days/img2.png", "./images/days/img3.png", "./images/days/img4.png","./images/days/img5.png", "./images/days/img6.png", "./images/days/img7.png"]
 const countriesArr = ["./images/countries/img1.png","./images/countries/img2.png", "./images/countries/img3.png", "./images/countries/img4.png", "./images/countries/img5.png", "./images/countries/img6.png", "./images/countries/img7.png", "./images/countries/img8.png", "./images/countries/img9.png", "./images/countries/img10.png", "./images/countries/img11.png", "./images/countries/img12.png", "./images/countries/img13.png", "./images/countries/img14.png", "./images/countries/img15.png", "./images/countries/img16.png", "./images/countries/img17.png", "./images/countries/img18.png", "./images/countries/img19.png", "./images/countries/img20.png", "./images/countries/img21.png", "./images/countries/img22.png", "./images/countries/img23.png", "./images/countries/img24.png", "./images/countries/img25.png", "./images/countries/img26.png"]
 const familyArr = ["./images/family/img1.png","./images/family/img2.png", "./images/family/img3.png", "./images/family/img4.png", "./images/family/img5.png", "./images/family/img6.png", "./images/family/img7.png"]
 const peopleArr = ["./images/people/img1.png","./images/people/img2.png", "./images/people/img3.png", "./images/people/img4.png"]
@@ -271,21 +287,20 @@ function renderGame(targetDiv, arr){
     answerBtn.classList.add("hide-me")
     topicBtnDisplay.className ="hide-me"
     gameBtnDisplay.className = "conceal-menu"
+    playBtn.classList.remove("hide-me")
     for ( let i = 0; i < displayArr.length; i++) {
     currentDiv.innerHTML += `<div class="img-box"><img src="${displayArr[i]}"></div>`
-    playBtn.classList.remove("hide-me")
     }
 }
 
 playBtn.addEventListener("click",function() {
     playBtn.classList.add("hide-me")
     answerBtn.classList.remove("hide-me")
-    remove("cards-container", 2)
+    remove("cards-container", globalCount)
 })
 
 function remove(targetDiv, count) {
     let modArr = displayArr
-    globalCount = count
     for (let i = 0; i < count; i++) {
     let missingNum = Math.floor(Math.random()*modArr.length)
     let missingArr = modArr.slice(missingNum,missingNum + 1)
@@ -321,6 +336,8 @@ clearBtn.addEventListener("click",function(){
     answerBox.innerHTML = ""
     answerBox.classList.add("hide-me")
     answerBtn.classList.add("hide-me")
+    playBtn.classList.add("hide-me")
+    playAgainBtn.classList.add("hide-me")
     activeArr = []
     displayArr = []
     selectArr = []
