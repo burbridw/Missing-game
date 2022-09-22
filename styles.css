@@ -27,15 +27,11 @@ img {
   background-color: transparent;
   border-radius: 5%;
   font-family: Tahoma, sans-serif;
-  font-size: 2.5rem;
+  font-size: 2rem;
   transition: all 0.2s ease-in-out;
 }
 #game-buttons button:hover {
   background-color: yellow;
-}
-
-#game-buttons button:nth-of-type(1) {
-  font-size: 2rem;
 }
 
 #game-buttons button:nth-of-type(3) {
@@ -54,18 +50,35 @@ img {
 }
 
 #game-buttons div:nth-of-type(2) {
-  font-size: 2.5rem;
+  font-size: 2rem;
   text-align: center;
   width: 10%;
-}
-
-#game-buttons button:nth-of-type(4) {
-  width: 5%;
 }
 
 #game-buttons button:nth-of-type(5) {
   width: 5%;
 }
+
+#game-buttons button:nth-of-type(6) {
+  width: 5%;
+}
+
+@media (max-width:1200px) {
+  #game-buttons button {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width:840px) {
+  #game-buttons button {
+    font-size: 1.2rem;
+  }
+}
+@media (max-width:680px) {
+  #game-buttons button {
+    font-size: 0.8rem;
+  }
+}
+
 #topic-buttons {
   display: flex;
   flex-direction: row;
@@ -140,25 +153,30 @@ img {
   border-radius: 15%;
 }
 
-#cards-container {
-  width: 100vw;
+.cards-container {
+  width: 95vw;
+  height: 80vh;
   display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     padding: 0;
     margin: 0;
+    margin-top: 15px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     padding-top: 65px;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
-#cards-container img {
+.cards-container img {
   width: 100%;
+  max-width: 23vw;
   height: auto; 
-  max-height: 200px;
-  max-width: 280px;
+  max-height: 27vh;
 }
-@media (min-width:360px) {
+/*@media (min-width:360px) {
   #cards-container img {
     max-height: 100px;
     max-width: 140px;
@@ -185,24 +203,24 @@ img {
 }
 @media (min-width: 1600px) {
   #cards-container img {
-    max-height: 210px;
-    max-width: 280px;
+    max-height: 250px;
+    max-width: 350px;
   }
 }
+*/
 
 
-
-#internal-game-button-container {
+.internal-game-button-container {
   position: absolute;
   width: 90%;
   height: 60px;
-  top: 90%;
+  top: 6%;
   left: 50%;
   transform: translateX(-50%);
   border-radius: 5%;
 }
 
-#internal-game-button-container button {
+.internal-game-button-container button {
   width: 100%;
   height: 100%;
   border-radius: 5%;
@@ -212,11 +230,11 @@ img {
   text-align: center;
   transition: all 0.5s ease-in-out;
 }
-#internal-game-button-container button:hover {
+.internal-game-button-container button:hover {
   background-color: yellow;
 }
 
-#internal-game-button-container div {
+.internal-game-button-container div {
   width: 100%;
   height: 100%;
   display: flex;
@@ -242,6 +260,10 @@ img {
   display: none;
 }
 
+.be-small {
+  height: 1px;
+}
+
 .conceal-menu {
   overflow: hidden;
   height: 20px;
@@ -249,4 +271,8 @@ img {
 
 .conceal-menu:hover {
   height: 100%;
+}
+.conceal-menu:hover ~ .internal-game-button-container {
+  display: none;
+  transition: all 0.5s linear;
 }
