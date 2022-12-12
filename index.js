@@ -17,6 +17,8 @@ const counterDisplay = document.getElementById("counter")
 const counterUpBtn = document.getElementById("counter-up")
 const counterDownBtn = document.getElementById("counter-down")
 const internalMenu = document.querySelector(".internal-game-button-container")
+const cardsContainer = document.querySelector(".cards-container")
+const cardsContainerGrid = document.querySelector(".cards-container-grid")
 
 counterDisplay.textContent = `Missing: ${globalCount}`
 
@@ -268,26 +270,26 @@ quickStart.addEventListener("click",function(){
 
 function quickstart() {
     activeArr = activeArr.concat(feelingsArr).concat(weatherArr).concat(colorArr).concat(shapesArr).concat(sportsArr).concat(foodsArr).concat(drinksArr).concat(dessertsArr).concat(fruitsvegetablesArr).concat(ingredientsArr).concat(mealsArr).concat(tastesArr).concat(animalsArr).concat(natureArr).concat(seaanimalsArr).concat(bugsArr).concat(monthsArr).concat(timesofdayArr).concat(seasonsArr).concat(daysArr).concat(countriesArr).concat(peopleArr).concat(familyArr).concat(personalitiesArr).concat(actions1Arr).concat(pastactionsArr).concat(actions2Arr).concat(dailyactivitiesArr).concat(frequencyArr).concat(clothesArr).concat(bodyArr).concat(buildingsArr).concat(directionsArr).concat(locationsArr).concat(vehiclesArr).concat(subjectsArr).concat(schoolArr).concat(stationaryArr).concat(instrumentsArr).concat(commonitemsArr).concat(activitiesArr).concat(schooleventsArr).concat(yearlyeventsArr).concat(descriptionsArr).concat(conditionsArr).concat(jobsArr).concat(clubactivitiesArr)
-    renderGame(".cards-container", activeArr)
+    renderGame(activeArr)
 }
 
 renderBtn.addEventListener("click", function(){
     if (activeArr.length >= 1) {
-    renderGame(".cards-container", activeArr)
+    renderGame(activeArr)
     } 
 })
 
 playAgainBtn.addEventListener("click", function() {
-    renderGame(".cards-container", activeArr)
+    renderGame(activeArr)
     playAgainBtn.classList.add("hide-me")
 })
 
-function renderGame(targetDiv, arr){
-    displayArr = arr.sort( () => { return 0.5 - Math.random() } )
+function renderGame(arr){
+
+    displayArr = arr.slice(0,arr.length).sort( () => { return 0.5 - Math.random() } )
     displayArr = displayArr.slice(0, 12)
-    let currentDiv = document.querySelector(targetDiv)
-    currentDiv.innerHTML = ""
-    currentDiv.classList.remove("hide-me")
+    cardsContainerGrid.innerHTML = ""
+    cardsContainer.classList.remove("hide-me")
     answerBox.innerHTML = ""
     answerBox.classList.add("hide-me")
     answerBtn.classList.add("hide-me")
@@ -295,18 +297,30 @@ function renderGame(targetDiv, arr){
     gameBtnDisplay.className = "conceal-menu"
     playBtn.classList.remove("hide-me")
     internalMenu.classList.remove("be-small")
+    if ( displayArr.length <= 4 && !cardsContainerGrid.classList.contains("micro-grid") ) {
+        cardsContainerGrid.classList.add("micro-grid")
+    } else if ( displayArr.length > 4 && cardsContainerGrid.classList.contains("micro-grid") ) {
+        cardsContainerGrid.classList.remove("micro-grid")
+    }
+    if ( displayArr.length > 4 && displayArr.length <= 8 && !cardsContainerGrid.classList.contains("small-grid") ) {
+        cardsContainerGrid.classList.add("small-grid")
+    } else if ( displayArr.length > 8 && cardsContainerGrid.classList.contains("small-grid") ) {
+        cardsContainerGrid.classList.remove("small-grid")
+    }
+
+    console.log(displayArr.length)
     for ( let i = 0; i < displayArr.length; i++) {
-    currentDiv.innerHTML += `<div class="img-box"><img src="${displayArr[i]}"></div>`
+    cardsContainerGrid.innerHTML += `<div class="img-box"><img src="${displayArr[i]}"></div>`
     }
 }
 
 playBtn.addEventListener("click",function() {
     playBtn.classList.add("hide-me")
     answerBtn.classList.remove("hide-me")
-    remove(".cards-container", globalCount)
+    remove(globalCount)
 })
 
-function remove(targetDiv, count) {
+function remove(count) {
     let modArr = displayArr
     for (let i = 0; i < count; i++) {
     let missingNum = Math.floor(Math.random()*modArr.length)
@@ -315,10 +329,9 @@ function remove(targetDiv, count) {
     modArr = modArr.sort( () => { return 0.5 - Math.random() } )
     answerArr = displayArr.filter( (x) => !modArr.includes(x) )
     }
-    let currentDiv = document.querySelector(targetDiv)
-    currentDiv.innerHTML = ""
+    cardsContainerGrid.innerHTML = ""
     for ( let i = 0; i < modArr.length; i++) {
-    currentDiv.innerHTML += `<div class="img-box"><img src="${modArr[i]}"></div>`
+    cardsContainerGrid.innerHTML += `<div class="img-box"><img src="${modArr[i]}"></div>`
     }
 }
 
@@ -336,9 +349,8 @@ function displayAnswer() {
 }
 
 clearBtn.addEventListener("click",function(){
-    let currentDiv = document.querySelector(".cards-container")
-    currentDiv.innerHTML = ""
-    currentDiv.classList.add("hide-me")
+    cardsContainerGrid.innerHTML = ""
+    cardsContainer.classList.add("hide-me")
     let currenterDiv = document.getElementById("select-container")
     currenterDiv.innerHTML = ""
     answerBox.innerHTML = ""
